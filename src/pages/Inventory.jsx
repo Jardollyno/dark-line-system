@@ -3,10 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { v4 } from "uuid";
 
+import AddCategory from "../components/AddCategory";
 import AddItems from "../components/AddItems";
-import Items from "../components/Items";
 import Title from "../components/Title";
-import ItemPage from "./ItemPage";
+import Categories from "../components/Categories";
 
 function Inventory() {
   function onAddItemSubmit(name, category, quantity, minimum) {
@@ -20,34 +20,35 @@ function Inventory() {
     setItems([...items, newItem]);
   }
 
-  function onSeeDetailsClick(item) {
-    const selectedItem = item;
-    setSelectedItem(selectedItem);
-    setShowItemDetails(true);
+  function onAddCategorySubmit(name) {
+    const newCategory = {
+      id: v4(),
+      name: name,
+    };
+    setCategories([...categories, newCategory]);
   }
 
-  function onUpdateItem(updatedItem) {
-    setItems(
-      items.map((item) => (item.id === updatedItem.id ? updatedItem : item)),
-    );
+  function onDeleteCategoryClick(id) {
+    const newCategories = categories.filter((category) => category.id !== id);
+    setCategories(newCategories);
   }
-
-  function onDeleteItemClick(id) {
-    const newItems = items.filter((item) => item.id !== id);
-    setItems(newItems);
-  }
-
-  const [selectedItem, setSelectedItem] = useState(null);
 
   const [items, setItems] = useState(() => {
     const storedItems = localStorage.getItem("items");
     return storedItems ? JSON.parse(storedItems) : [];
   });
-
-  const [showItemDetails, setShowItemDetails] = useState(false);
   const [showAddItems, setShowAddItems] = useState(false);
-
+  const [showAddCategory, setShowAddCategory] = useState(false);
+  const [showAddButtons, setShowAddButtons] = useState(false);
+  const [categories, setCategories] = useState(() => {
+    const storedCategories = localStorage.getItem("categories");
+    return storedCategories ? JSON.parse(storedCategories) : [];
+  });
   const navigate = useNavigate();
+
+  useEffect(() => {
+    localStorage.setItem("categories", JSON.stringify(categories));
+  }, [categories]);
 
   useEffect(() => {
     localStorage.setItem("items", JSON.stringify(items));
@@ -62,38 +63,63 @@ function Inventory() {
           </button>
           <Title>Inventário</Title>
         </div>
-        <div className="mt-6 bg-slate-800 text-white p-1 rounded-xl shadow">
-          <Items
+        <div>
+          <Categories
             items={items}
-            onSeeDetailsClick={onSeeDetailsClick}
-            onDeleteItemClick={onDeleteItemClick}
-          ></Items>
+            setItems={setItems}
+            categories={categories}
+            onDeleteCategoryClick={onDeleteCategoryClick}
+          ></Categories>
         </div>
         <div>
           <button
             onClick={() => {
-              setShowAddItems(true);
+              setShowAddButtons(!showAddButtons);
             }}
-            className="fixed bottom-8 right-8 h-16 w-16 flex items-center justify-center rounded-full
+            className="fixed bottom-8 right-8 h-20 w-20 flex items-center justify-center rounded-full
           bg-slate-800 text-white shadow-xl hover:bg-indigo-700 transition"
           >
-            <Plus className="w-8 h-8 text-white" strokeWidth={2.5} />
+            <Plus className="w-10 h-10 text-white" strokeWidth={2.5} />
           </button>
+          <div>
+            {showAddButtons && (
+              <div className="fixed bottom-[7.5rem] right-[2.5rem] flex flex-col gap-2">
+                <button
+                  onClick={() => {
+                    setShowAddItems(true);
+                    setShowAddButtons(false);
+                  }}
+                  className="h-16 w-16 flex items-center justify-center rounded-full bg-slate-800 text-white shadow-xl hover:bg-indigo-700 transition"
+                >
+                  <span className="text-xs">Item</span>
+                </button>
+                <button
+                  onClick={() => {
+                    setShowAddCategory(true);
+                    setShowAddButtons(false);
+                  }}
+                  className="h-16 w-16 flex items-center justify-center rounded-full bg-slate-800 text-white shadow-xl hover:bg-indigo-700 transition"
+                >
+                  <span className="text-xs">Categoria</span>
+                </button>
+              </div>
+            )}
+          </div>
         </div>
         <div>
           {showAddItems && (
             <AddItems
+              categories={categories}
               onAddItemSubmit={onAddItemSubmit}
               onClose={() => setShowAddItems(false)}
             />
           )}
         </div>
         <div>
-          {showItemDetails && (
-            <ItemPage
-              item={selectedItem}
-              onClose={() => setShowItemDetails(false)}
-              onSave={onUpdateItem}
+          {showAddCategory && (
+            <AddCategory
+              onAddCategorySubmit={onAddCategorySubmit}
+              onClose={() => setShowAddCategory(false)}
             />
           )}
         </div>

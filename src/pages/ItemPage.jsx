@@ -4,7 +4,7 @@ import Input from "../components/Input";
 import Button from "../components/Button";
 import { useEffect, useState } from "react";
 
-function ItemPage({ item, onClose, onSave }) {
+function ItemPage({ item, categorys, onClose, onSave }) {
   const [formData, setFormData] = useState({
     name: item.name,
     category: item.category,
@@ -41,17 +41,6 @@ function ItemPage({ item, onClose, onSave }) {
           </div>
           <div className="flex flex-row items-center gap-2">
             <p className="w-64 text-xl text-slate-100 font-semibold text-left">
-              Categoria:
-            </p>
-            <Input
-              value={formData.category}
-              onChange={(e) =>
-                setFormData({ ...formData, category: e.target.value })
-              }
-            ></Input>
-          </div>
-          <div className="flex flex-row items-center gap-2">
-            <p className="w-64 text-xl text-slate-100 font-semibold text-left">
               Quantidade:
             </p>
             <Input
@@ -71,6 +60,28 @@ function ItemPage({ item, onClose, onSave }) {
                 setFormData({ ...formData, minimum: e.target.value })
               }
             ></Input>
+          </div>
+          <div className="flex flex-row items-center gap-2">
+            <p className="w-64 text-xl text-slate-100 font-semibold text-left">
+              Categoria:
+            </p>
+            <select
+              id="category"
+              name="category"
+              value={formData.category}
+              onChange={(e) =>
+                setFormData({ ...formData, category: e.target.value })
+              }
+              className="w-full text-right mt-2 border border-slate-300 text-slate-400
+            px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+            >
+              <option value="">Selecione uma categoria</option>
+              {categorys.map((category) => (
+                <option key={category.id} value={category.name}>
+                  {category.name}
+                </option>
+              ))}
+            </select>
           </div>
         </div>
         <div className="flex justify-center gap-4 mt-2">

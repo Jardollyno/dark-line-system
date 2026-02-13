@@ -4,7 +4,7 @@ import Input from "./Input.jsx";
 import Button from "./Button.jsx";
 import Title from "./Title.jsx";
 
-function AddItems({ onAddItemSubmit, onClose }) {
+function AddItems({ categories, onAddItemSubmit, onClose }) {
   const [name, setName] = useState("");
   const [quantity, setQuantity] = useState("");
   const [minimum, setMinimum] = useState("");
@@ -12,7 +12,7 @@ function AddItems({ onAddItemSubmit, onClose }) {
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
-      <div className="bg-slate-400 w-full max-w-md rounded-xl shadow-2xl p-6 m-2 relative">
+      <div className="bg-slate-400 w-full max-w-md rounded-xl shadow-2xl p-6 m-4 relative">
         <Title>Adicionar Item</Title>
         <div className="flex flex-row items-center gap-2">
           <p className="w-64 text-xl text-slate-100 font-semibold text-left">
@@ -60,9 +60,11 @@ function AddItems({ onAddItemSubmit, onClose }) {
             px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
           >
             <option value="">Selecione uma categoria</option>
-            <option value="Agulhas">Agulhas</option>
-            <option value="Biqueiras">Biqueiras</option>
-            <option value="Descartáveis">Descartáveis</option>
+            {categories.map((category) => (
+              <option key={category.id} value={category.name}>
+                {category.name}
+              </option>
+            ))}
           </select>
         </div>
         <div className="flex justify-center gap-4 mt-2">
