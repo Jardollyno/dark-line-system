@@ -58,7 +58,10 @@ function Inventory() {
     <div className="w-screen min-h-screen bg-slate-500 flex justify-center p-6">
       <div className="w-full max-w-4xl relative">
         <div className="relative flex items-center justify-center">
-          <button onClick={() => navigate(-1)} className="absolute left-0">
+          <button
+            onClick={() => navigate(-1)}
+            className="absolute left-0 top-1"
+          >
             <ChevronLeftIcon className="w-8 h-8 text-white" strokeWidth={2.5} />
           </button>
           <Title>Inventário</Title>

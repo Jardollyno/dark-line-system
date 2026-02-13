@@ -5,6 +5,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
 import App from "./App.jsx";
 import Inventory from "./pages/Inventory.jsx";
+import BackupPage from "./pages/BackupPage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -14,6 +15,10 @@ const router = createBrowserRouter([
   {
     path: "/inventory",
     element: <Inventory />,
+  },
+  {
+    path: "/backup",
+    element: <BackupPage />,
   },
 ]);
 

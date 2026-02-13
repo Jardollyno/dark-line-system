@@ -1,7 +1,7 @@
 import { ChevronDownIcon, TrashIcon } from "lucide-react";
 import { useState } from "react";
 
-import ItemPage from "../pages/ItemPage";
+import ItemPage from "./ItemPage";
 
 const DEFAULT_CATEGORY = {
   id: "uncategorized",
@@ -62,9 +62,9 @@ function Categories({ items, setItems, categories, onDeleteCategoryClick }) {
         {safeCategories.map((category) => (
           <li
             key={category.id}
-            className="m-2 bg-slate-700 text-white p-2 rounded-xl shadow"
+            className="m-2 bg-slate-900 text-white p-2 rounded-xl shadow"
           >
-            <div className="bg-slate-800 text-white p-2 rounded-xl shadow">
+            <div className="bg-slate-700 text-white p-2 rounded-xl shadow">
               <div className="p-1 flex items-center gap-2 font-semibold">
                 <span>{category.name}</span>
                 <button
@@ -90,7 +90,7 @@ function Categories({ items, setItems, categories, onDeleteCategoryClick }) {
                     (item) => (
                       <li
                         key={item.id}
-                        className="m-2 bg-slate-700 text-white p-2 rounded-xl shadow"
+                        className="m-2 bg-slate-800 text-white p-2 rounded-xl shadow"
                       >
                         <div className="p-1 flex items-center gap-2 font-semibold">
                           <span onClick={() => onSeeDetailsClick(item)}>
@@ -103,7 +103,7 @@ function Categories({ items, setItems, categories, onDeleteCategoryClick }) {
 
                           <button
                             onClick={() => onDeleteItemClick(item.id)}
-                            className="absolute right-5 pl-1 w-8 h-8 rounded-xl bg-slate-500  text-white hover:bg-red-500 transition"
+                            className="absolute right-[2rem] pl-1 w-8 h-8 rounded-xl bg-slate-500  text-white hover:bg-red-500 transition"
                           >
                             <TrashIcon />
                           </button>

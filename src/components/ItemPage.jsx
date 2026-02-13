@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
-import Title from "../components/Title";
-import Input from "../components/Input";
-import Button from "../components/Button";
+import Title from "./Title";
+import Input from "./Input";
+import Button from "./Button";
 import { useEffect, useState } from "react";
 
 function ItemPage({ item, categorys, onClose, onSave }) {
