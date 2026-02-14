@@ -2,15 +2,21 @@
 import Title from "./Title";
 import Input from "./Input";
 import Button from "./Button";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 
-function ItemPage({ item, categorys, onClose, onSave }) {
+function ItemPage({ item, categories, onClose, onSave }) {
   const [formData, setFormData] = useState({
     name: item.name,
     category: item.category,
     quantity: item.quantity,
     minimum: item.minimum,
   });
+
+  const sortedCategories = useMemo(() => {
+    return [...categories].sort((a, b) =>
+      a.name.localeCompare(b.name, "pt-BR", { sensitivity: "base" }),
+    );
+  }, [categories]);
 
   useEffect(() => {
     setFormData({
@@ -76,7 +82,7 @@ function ItemPage({ item, categorys, onClose, onSave }) {
             px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
             >
               <option value="">Selecione uma categoria</option>
-              {categorys.map((category) => (
+              {sortedCategories.map((category) => (
                 <option key={category.id} value={category.name}>
                   {category.name}
                 </option>

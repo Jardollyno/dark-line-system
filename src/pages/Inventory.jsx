@@ -12,7 +12,7 @@ function Inventory() {
   function onAddItemSubmit(name, category, quantity, minimum) {
     const newItem = {
       id: v4(),
-      name: name,
+      name: name.trim(),
       category: category,
       quantity: quantity,
       minimum: minimum,
@@ -23,8 +23,12 @@ function Inventory() {
   function onAddCategorySubmit(name) {
     const newCategory = {
       id: v4(),
-      name: name,
+      name: name.trim(),
     };
+    if (categories.some((cat) => cat.name === newCategory.name)) {
+      alert("Já existe uma categoria com esse nome.");
+      return;
+    }
     setCategories([...categories, newCategory]);
   }
 

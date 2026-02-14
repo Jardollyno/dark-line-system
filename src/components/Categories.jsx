@@ -1,5 +1,5 @@
-import { ChevronDownIcon, TrashIcon } from "lucide-react";
-import { useState } from "react";
+import { ChevronDownIcon, ChevronRightIcon, TrashIcon } from "lucide-react";
+import { useState, useMemo } from "react";
 
 import ItemPage from "./ItemPage";
 
@@ -15,6 +15,16 @@ function Categories({ items, setItems, categories, onDeleteCategoryClick }) {
   const [showItemDetails, setShowItemDetails] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
   const safeCategories = ensureDefaultCategory(categories);
+  const sortedCategories = useMemo(() => {
+    return [...safeCategories].sort((a, b) =>
+      a.name.localeCompare(b.name, "pt-BR", { sensitivity: "base" }),
+    );
+  }, [safeCategories]);
+  const sortedItems = useMemo(() => {
+    return [...items].sort((a, b) =>
+      a.name.localeCompare(b.name, "pt-BR", { sensitivity: "base" }),
+    );
+  }, [items]);
 
   function filterByCategory(category, items, categories) {
     if (category.system) {
@@ -59,7 +69,7 @@ function Categories({ items, setItems, categories, onDeleteCategoryClick }) {
   return (
     <div>
       <ul>
-        {safeCategories.map((category) => (
+        {sortedCategories.map((category) => (
           <li
             key={category.id}
             className="m-2 bg-slate-900 text-white p-2 rounded-xl shadow"
@@ -72,7 +82,11 @@ function Categories({ items, setItems, categories, onDeleteCategoryClick }) {
                   className="absolute right-[4rem] pl-1 w-8 h-8 rounded-xl bg-slate-500  
               text-white  hover:bg-indigo-700 transition"
                 >
-                  <ChevronDownIcon />
+                  {openCategories[category.id] ? (
+                    <ChevronDownIcon />
+                  ) : (
+                    <ChevronRightIcon />
+                  )}
                 </button>
                 <button
                   onClick={() => onDeleteCategoryClick(category.id)}
@@ -86,27 +100,32 @@ function Categories({ items, setItems, categories, onDeleteCategoryClick }) {
             <div>
               <ul>
                 {openCategories[category.id] &&
-                  filterByCategory(category, items, safeCategories).map(
+                  filterByCategory(category, sortedItems, safeCategories).map(
                     (item) => (
                       <li
                         key={item.id}
                         className="m-2 bg-slate-800 text-white p-2 rounded-xl shadow"
                       >
-                        <div className="p-1 flex items-center gap-2 font-semibold">
-                          <span onClick={() => onSeeDetailsClick(item)}>
-                            {item.name}
-                          </span>
+                        <div
+                          onClick={() => onSeeDetailsClick(item)}
+                          className="p-1 flex items-center gap-2 font-semibold"
+                        >
+                          <span>{item.name}</span>
                           <span className="text-slate-300">-</span>
                           <span className="text-slate-300 text-sm">
                             {item.quantity} unidades
                           </span>
-
-                          <button
-                            onClick={() => onDeleteItemClick(item.id)}
-                            className="absolute right-[2rem] pl-1 w-8 h-8 rounded-xl bg-slate-500  text-white hover:bg-red-500 transition"
+                          <div
+                            className="absolute right-[2rem] mt-[0.4rem]"
+                            onClick={(event) => event.stopPropagation()}
                           >
-                            <TrashIcon />
-                          </button>
+                            <button
+                              onClick={() => onDeleteItemClick(item.id)}
+                              className="pl-1 w-8 h-8 rounded-xl bg-slate-500  text-white hover:bg-red-500 transition"
+                            >
+                              <TrashIcon />
+                            </button>
+                          </div>
                         </div>
                       </li>
                     ),
@@ -120,7 +139,7 @@ function Categories({ items, setItems, categories, onDeleteCategoryClick }) {
         {showItemDetails && (
           <ItemPage
             item={selectedItem}
-            categorys={categories}
+            categories={categories}
             onClose={() => setShowItemDetails(false)}
             onSave={onUpdateItem}
           />

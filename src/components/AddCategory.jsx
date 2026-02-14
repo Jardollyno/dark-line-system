@@ -8,8 +8,14 @@ function AddCategory({ onAddCategorySubmit, onClose }) {
   const [name, setName] = useState("");
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
-      <div className="bg-slate-400 w-full max-w-md rounded-xl shadow-2xl p-6 m-4 relative">
+    <div
+      onClick={onClose}
+      className="fixed inset-0 flex items-center justify-center bg-black/50 z-50"
+    >
+      <div
+        onClick={(event) => event.stopPropagation()}
+        className="bg-slate-400 w-full max-w-md rounded-xl shadow-2xl p-6 m-4 relative"
+      >
         <Title>Adicionar Categoria</Title>
         <div className="flex flex-row items-center gap-2">
           <p className="w-64 text-xl text-slate-100 font-semibold text-left">
@@ -32,9 +38,10 @@ function AddCategory({ onAddCategorySubmit, onClose }) {
               }
               onAddCategorySubmit(name);
               setName("");
+              onClose();
             }}
           >
-            Adicionar Item
+            Adicionar
           </Button>
           <Button onClick={onClose}>Cancelar</Button>
         </div>

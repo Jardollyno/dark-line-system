@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import Input from "./Input.jsx";
 import Button from "./Button.jsx";
 import Title from "./Title.jsx";
@@ -9,10 +9,21 @@ function AddItems({ categories, onAddItemSubmit, onClose }) {
   const [quantity, setQuantity] = useState("");
   const [minimum, setMinimum] = useState("");
   const [category, setCategory] = useState("");
+  const sortedCategories = useMemo(() => {
+    return [...categories].sort((a, b) =>
+      a.name.localeCompare(b.name, "pt-BR", { sensitivity: "base" }),
+    );
+  }, [categories]);
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
-      <div className="bg-slate-400 w-full max-w-md rounded-xl shadow-2xl p-6 m-4 relative">
+    <div
+      onClick={onClose}
+      className="fixed inset-0 flex items-center justify-center bg-black/50 z-50"
+    >
+      <div
+        onClick={(event) => event.stopPropagation()}
+        className="bg-slate-400 w-full max-w-md rounded-xl shadow-2xl p-6 m-4 relative"
+      >
         <Title>Adicionar Item</Title>
         <div className="flex flex-row items-center gap-2">
           <p className="w-64 text-xl text-slate-100 font-semibold text-left">
@@ -60,7 +71,7 @@ function AddItems({ categories, onAddItemSubmit, onClose }) {
             px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
           >
             <option value="">Selecione uma categoria</option>
-            {categories.map((category) => (
+            {sortedCategories.map((category) => (
               <option key={category.id} value={category.name}>
                 {category.name}
               </option>
@@ -85,9 +96,10 @@ function AddItems({ categories, onAddItemSubmit, onClose }) {
               setCategory("");
               setQuantity("");
               setMinimum("");
+              onClose();
             }}
           >
-            Adicionar Item
+            Adicionar
           </Button>
           <Button onClick={onClose}>Cancelar</Button>
         </div>
