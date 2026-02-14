@@ -7,12 +7,19 @@ import Button from "../components/Button";
 
 function BackupPage() {
   const navigate = useNavigate();
-  const rawData = localStorage.getItem("items");
-  const parsedData = JSON.parse(rawData || "[]");
-  const formattedText = JSON.stringify(parsedData, null, 2);
   const fileInputRef = useRef(null);
 
   function downloadTxt() {
+    const items = JSON.parse(localStorage.getItem("items") || "[]");
+    const categories = JSON.parse(localStorage.getItem("categories") || "[]");
+
+    const backupData = {
+      items,
+      categories,
+    };
+
+    const formattedText = JSON.stringify(backupData, null, 2);
+
     if (!formattedText) {
       alert("Nenhum dado para fazer backup.");
       return;
@@ -32,21 +39,25 @@ function BackupPage() {
 
   function importTxt(event) {
     const file = event.target.files[0];
-
     if (!file) return;
+
     const reader = new FileReader();
+
     reader.onload = function (e) {
       const content = e.target.result;
       try {
         const parsed = JSON.parse(content);
-        localStorage.setItem("items", JSON.stringify(parsed));
+        localStorage.setItem("items", JSON.stringify(parsed.items));
+        localStorage.setItem("categories", JSON.stringify(parsed.categories));
         alert("Dados importados com sucesso!");
+        // eslint-disable-next-line no-unused-vars
       } catch (error) {
         localStorage.setItem("items", content);
         alert("Arquivo importado como texto simples");
       }
     };
     reader.readAsText(file);
+    event.target.value = "";
   }
 
   return (
