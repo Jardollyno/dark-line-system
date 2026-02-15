@@ -96,7 +96,8 @@ function Inventory() {
                     setShowAddItems(true);
                     setShowAddButtons(false);
                   }}
-                  className="h-16 w-16 flex items-center justify-center rounded-full bg-slate-800 text-white shadow-xl hover:bg-indigo-700 transition"
+                  className="h-16 w-16 flex items-center justify-center rounded-full 
+                  bg-slate-800 text-white shadow-xl hover:bg-indigo-700 transition"
                 >
                   <span className="text-xs">Item</span>
                 </button>
@@ -105,7 +106,8 @@ function Inventory() {
                     setShowAddCategory(true);
                     setShowAddButtons(false);
                   }}
-                  className="h-16 w-16 flex items-center justify-center rounded-full bg-slate-800 text-white shadow-xl hover:bg-indigo-700 transition"
+                  className="h-16 w-16 flex items-center justify-center rounded-full 
+                  bg-slate-800 text-white shadow-xl hover:bg-indigo-700 transition"
                 >
                   <span className="text-xs">Categoria</span>
                 </button>

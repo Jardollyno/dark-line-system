@@ -6,6 +6,7 @@ import "./index.css";
 import App from "./App.jsx";
 import Inventory from "./pages/Inventory.jsx";
 import BackupPage from "./pages/BackupPage.jsx";
+import ClientsPage from "./pages/ClientsPage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -19,6 +20,10 @@ const router = createBrowserRouter([
   {
     path: "/backup",
     element: <BackupPage />,
+  },
+  {
+    path: "/clients",
+    element: <ClientsPage />,
   },
 ]);
 

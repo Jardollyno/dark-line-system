@@ -15,6 +15,10 @@ function App() {
     navigate(`/backup`);
   }
 
+  function onClickClients() {
+    navigate(`/clients`);
+  }
+
   return (
     <div className="w-screen h-screen bg-slate-500 flex justify-center p-6">
       <div className="w-[500px] space-y-4">
@@ -28,7 +32,7 @@ function App() {
             Estoque
           </Button>
           <Button>Agenda</Button>
-          <Button>Clientes</Button>
+          <Button onClick={() => onClickClients()}>Clientes</Button>
           <Button
             onClick={() => {
               onClickBackup();

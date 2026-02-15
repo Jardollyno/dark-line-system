@@ -12,10 +12,12 @@ function BackupPage() {
   function downloadTxt() {
     const items = JSON.parse(localStorage.getItem("items") || "[]");
     const categories = JSON.parse(localStorage.getItem("categories") || "[]");
+    const clients = JSON.parse(localStorage.getItem("clients") || "[]");
 
     const backupData = {
       items,
       categories,
+      clients,
     };
 
     const formattedText = JSON.stringify(backupData, null, 2);
@@ -49,10 +51,13 @@ function BackupPage() {
         const parsed = JSON.parse(content);
         localStorage.setItem("items", JSON.stringify(parsed.items));
         localStorage.setItem("categories", JSON.stringify(parsed.categories));
+        localStorage.setItem("clients", JSON.stringify(parsed.clients));
         alert("Dados importados com sucesso!");
         // eslint-disable-next-line no-unused-vars
       } catch (error) {
         localStorage.setItem("items", content);
+        localStorage.setItem("categories", content);
+        localStorage.setItem("clients", content);
         alert("Arquivo importado como texto simples");
       }
     };
